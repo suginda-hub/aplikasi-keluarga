@@ -17,20 +17,29 @@
     <button onclick="panggilScript()">Tes Koneksi Data</button>
 
     <script>
-        // URL Web App Google Script Anda
-        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbxhHqMl8dxmOqkBtKozW4FOS7Tx5Sc4A28-KHyal0O5jVZ7AarXNJzeGql7Rz1a9bE/exec";
+  // URL Web App Google Script Anda
+  const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbxZQVbIxNS9yfIC0Vf7YE8zQHEF6F6iigIQDAbn_wq6kS2R3n0m2_k-Lf3Jn6ZVaj0/exec";
 
-        function panggilScript() {
-            fetch(URL_WEB_APP)
-            .then(res => res.json())
-            .then(data => {
-                alert("Berhasil terhubung! Respons data: " + JSON.stringify(data));
-            })
-            .catch(err => {
-                alert("Error! Periksa kembali apakah pengaturan Deployment di Google Script sudah diset ke 'Anyone'.");
-                console.error(err);
-            });
-        }
-    </script>
+  function panggilScript() {
+    fetch(URL_WEB_APP, {
+      method: 'GET', // Atur metode
+      mode: 'cors',  // Pastikan membaca lintas asal
+      redirect: 'follow' // Wajib untuk mengikuti redirect dari Google
+    })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Jaringan bermasalah atau URL salah.');
+      }
+      return res.json();
+    })
+    .then(data => {
+      alert("Berhasil terhubung! Respons data: " + JSON.stringify(data));
+    })
+    .catch(err => {
+      alert("Error! Periksa kembali pengaturan Deployment Google Script (harus 'Anyone').");
+      console.error("Detail Error:", err);
+    });
+  }
+</script>
 </body>
 </html>
